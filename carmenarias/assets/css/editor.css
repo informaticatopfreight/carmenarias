@@ -1,0 +1,21 @@
+/* Estilos del editor de bloques: que se parezca a la web publicada. */
+body, .editor-styles-wrapper {
+	font-family: "Atkinson Hyperlegible", Verdana, system-ui, sans-serif;
+	font-size: 1.125rem;
+	line-height: 1.65;
+	color: #262826;
+	background: #FBF9F3;
+}
+.editor-styles-wrapper h1, .editor-styles-wrapper h2, .editor-styles-wrapper h3, .editor-styles-wrapper h4,
+.editor-post-title__input {
+	font-family: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+	line-height: 1.1;
+	letter-spacing: -.01em;
+}
+.editor-styles-wrapper a { color: #2A3A93; }
+.editor-styles-wrapper .wp-block-details { border: 1px solid #DDD7C8; border-radius: 14px; padding: 1rem 1.3rem; background: #fff; }
+.editor-styles-wrapper .wp-block-details summary { font-family: "Bricolage Grotesque", sans-serif; font-weight: 600; font-size: 1.2rem; }
+.editor-styles-wrapper .wp-block-button__link { background: #2A3A93; color: #FBF9F3; border-radius: 999px; font-weight: 700; }
+.editor-styles-wrapper ul li::marker { color: #C99A3E; }
+.editor-styles-wrapper .wp-block-image img { border-radius: 14px; }
+.editor-styles-wrapper .wp-block-quote { border-left: 4px solid #C99A3E; padding-left: 1.4rem; }
