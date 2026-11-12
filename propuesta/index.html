@@ -1,0 +1,341 @@
+<title>Fundación Carmen Arias</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: casa manchega — muros encalados con zócalo añil; horizonte de llanura, molino que gira, bandas a todo lo ancho */
+:root{
+  --cal:#FBF9F3;        /* muro encalado */
+  --cal-2:#F1EDE2;
+  --anil:#2A3A93;       /* zócalo azulete */
+  --anil-2:#1D2866;
+  --trigo:#D9A23A;      /* llanura en julio */
+  --tierra:#8A5530;
+  --ink:#1C2140;
+  --muted:#5A5F78;
+  --line:#DCD6C6;
+  --on-anil:#FBF9F3;
+  --sky-a:#EAF0FA; --sky-b:#FBF3E2;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Verdana", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --cal:#12162E; --cal-2:#1A1F3D; --anil:#8FA2F5; --anil-2:#B7C4FF; --trigo:#E8B656; --tierra:#D59A6C;
+  --ink:#F1EEE6; --muted:#A9ADC4; --line:#2C3256; --on-anil:#12162E; --sky-a:#0E1230; --sky-b:#1C2048; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --cal:#12162E; --cal-2:#1A1F3D; --anil:#8FA2F5; --anil-2:#B7C4FF; --trigo:#E8B656; --tierra:#D59A6C;
+  --ink:#F1EEE6; --muted:#A9ADC4; --line:#2C3256; --on-anil:#12162E; --sky-a:#0E1230; --sky-b:#1C2048; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--cal);color:var(--ink);font-family:var(--f-body);font-size:1.125rem;line-height:1.6;overflow-x:hidden}
+h1,h2,h3{font-family:var(--f-display);line-height:1.05;text-wrap:balance;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--trigo);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--tierra)}
+.btn{display:inline-flex;align-items:center;gap:.6em;font-weight:700;text-decoration:none;padding:.9em 1.4em;border-radius:999px;background:var(--anil);color:var(--on-anil);transition:transform .3s,background .3s}
+.btn:hover{transform:translateY(-2px);background:var(--anil-2)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+
+/* Cabecera */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--cal)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--cal) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:.9rem}
+.logo{display:flex;align-items:center;gap:.6rem;font-family:var(--f-display);font-weight:800;font-size:1.15rem;text-decoration:none}
+.logo small{display:block;font-family:var(--f-body);font-weight:400;font-size:.75rem;color:var(--muted);letter-spacing:.04em}
+.logo-mark{width:38px;height:38px;border-radius:50%;background:var(--anil);display:grid;place-items:center;color:var(--on-anil);font-size:.75rem;font-weight:800}
+.nav ul{display:flex;gap:1.6rem;list-style:none;margin:0;padding:0;font-weight:700;font-size:1rem}
+.nav ul a{text-decoration:none;position:relative}
+.nav ul a::after{content:"";position:absolute;left:0;right:100%;bottom:-4px;height:2px;background:var(--trigo);transition:right .35s}
+.nav ul a:hover::after{right:0}
+@media (max-width:860px){.nav ul{display:none}}
+
+/* Hero */
+.hero{position:relative;background:linear-gradient(180deg,var(--sky-a),var(--sky-b));overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:2rem;align-items:end;padding-block:4.5rem 0}
+.hero-text{padding-bottom:5rem;min-width:0}
+.hero h1{font-size:clamp(2.6rem,6.4vw,5.4rem);font-weight:800;letter-spacing:-.02em}
+.hero h1 .ln{display:block;overflow:hidden}
+.hero h1 .ln span{display:inline-block;animation:rise 1s cubic-bezier(.2,.7,.1,1) both}
+.hero h1 .ln:nth-child(2) span{animation-delay:.12s}
+.hero h1 .ln:nth-child(3) span{animation-delay:.24s}
+.hero h1 em{font-style:normal;color:var(--anil)}
+.hero p.lead{max-width:34ch;font-size:1.25rem;color:var(--muted);margin:1.4rem 0 2rem;animation:fade 1s .5s both}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:.8rem;animation:fade 1s .7s both}
+@keyframes rise{from{transform:translateY(105%)}to{transform:none}}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.scene{position:relative;align-self:stretch;min-height:420px;min-width:0}
+.scene svg{position:absolute;inset:auto 0 0 0;width:100%;height:100%}
+.sun{fill:var(--trigo);opacity:.35}
+.mill-body{fill:var(--cal)}
+.mill-stroke{stroke:var(--ink);stroke-width:2.2;fill:none}
+.mill-cap{fill:var(--ink)}
+.mill-door{fill:var(--anil)}
+.sails{transform-origin:200px 150px;animation:spin 18s linear infinite}
+.sail-frame{fill:none;stroke:var(--ink);stroke-width:2}
+.sail-cloth{fill:var(--cal-2);stroke:var(--ink);stroke-width:1.2}
+@keyframes spin{to{transform:rotate(360deg)}}
+.field1{fill:var(--trigo)} .field2{fill:var(--tierra);opacity:.55} .field3{fill:var(--trigo);opacity:.6}
+.cloud{fill:var(--cal);opacity:.9;animation:drift 60s linear infinite}
+@keyframes drift{from{transform:translateX(-120px)}to{transform:translateX(520px)}}
+
+/* Zócalo añil + marquesina */
+.zocalo{background:var(--anil);color:var(--on-anil);overflow:hidden;padding-block:1.1rem}
+.marquee{display:flex;width:max-content;animation:marq 38s linear infinite}
+.marquee span{font-family:var(--f-display);font-weight:600;font-size:clamp(1.4rem,3vw,2.2rem);white-space:nowrap;padding-right:2.5rem}
+.marquee span i{font-style:normal;color:var(--trigo);padding-left:2.5rem}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* Cifras */
+.cifras{padding-block:5rem}
+.cifras-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:2.5rem}
+.cifra{border-top:3px solid var(--ink);padding-top:1rem;min-width:0}
+.cifra b{display:block;font-family:var(--f-display);font-size:clamp(3rem,6vw,4.8rem);font-weight:800;line-height:1;font-variant-numeric:tabular-nums;color:var(--anil)}
+.cifra span{color:var(--muted)}
+.intro{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+.intro h2{font-size:clamp(2rem,4vw,3.2rem)}
+.intro p{margin:0;max-width:60ch}
+@media (max-width:860px){.cifras-grid{grid-template-columns:repeat(2,1fr)}.intro{grid-template-columns:1fr;gap:1.2rem}}
+
+/* Centros */
+.centros{background:var(--cal-2);padding-block:5.5rem}
+.centros-head{display:flex;justify-content:space-between;align-items:end;gap:2rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.centros-head h2{font-size:clamp(2.2rem,5vw,4rem);max-width:14ch}
+.centros-head p{max-width:40ch;color:var(--muted);margin:0}
+.centro-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.centro{border-bottom:1px solid var(--line)}
+.centro a{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.4fr) auto;gap:2rem;align-items:center;padding-block:1.8rem;text-decoration:none;position:relative}
+.centro a::before{content:"";position:absolute;inset:0 -16px;background:var(--anil);transform:scaleY(0);transform-origin:bottom;transition:transform .5s cubic-bezier(.2,.7,.1,1);z-index:0;border-radius:6px}
+.centro a>*{position:relative;z-index:1;transition:color .4s}
+.centro a:hover::before,.centro a:focus-visible::before{transform:scaleY(1)}
+.centro a:hover>*,.centro a:focus-visible>*{color:var(--on-anil)}
+.centro h3{font-size:clamp(1.5rem,2.8vw,2.3rem);font-weight:600}
+.centro p{margin:0;color:var(--muted)}
+.centro .plazas{font-family:var(--f-display);font-weight:800;font-size:1.1rem;white-space:nowrap;padding:.4em .9em;border-radius:999px;box-shadow:inset 0 0 0 2px currentColor}
+@media (max-width:760px){.centro a{grid-template-columns:1fr;gap:.6rem}}
+
+/* Cita */
+.cita{padding-block:6rem;text-align:left}
+.cita blockquote{margin:0;font-family:var(--f-display);font-weight:600;font-size:clamp(1.8rem,4.2vw,3.4rem);line-height:1.15;max-width:22ch;letter-spacing:-.01em}
+.cita blockquote .w{opacity:.18;transition:opacity .5s}
+.cita blockquote .w.on{opacity:1}
+.cita figcaption{margin-top:1.5rem;color:var(--muted)}
+.cita .grid{display:grid;grid-template-columns:auto 1fr;gap:2.5rem;align-items:center}
+.cita svg{width:120px;height:auto}
+@media (max-width:640px){.cita .grid{grid-template-columns:1fr}.cita svg{width:80px}}
+
+/* Noticias */
+.noticias{padding-block:5rem;border-top:1px solid var(--line)}
+.noticias-head{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
+.noticias-head h2{font-size:clamp(2rem,4vw,3rem)}
+.news{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.card{text-decoration:none;display:flex;flex-direction:column;gap:.8rem;min-width:0}
+.card .img{aspect-ratio:4/3;max-width:100%;border-radius:14px;overflow:hidden;position:relative;background:var(--cal-2)}
+.card .img i{position:absolute;inset:0;transition:transform .8s cubic-bezier(.2,.7,.1,1)}
+.card:hover .img i{transform:scale(1.06)}
+.card .img .tag{position:absolute;left:12px;top:12px;background:var(--cal);color:var(--ink);font-size:.8rem;font-weight:700;padding:.3em .8em;border-radius:999px;z-index:1}
+.card time{font-size:.9rem;color:var(--muted)}
+.card h3{font-size:1.35rem;font-weight:600}
+.ph1 i{background:radial-gradient(circle at 70% 30%,var(--trigo) 0 18%,transparent 19%),linear-gradient(180deg,var(--sky-a) 55%,var(--trigo) 55% 70%,var(--tierra) 70%)}
+.ph2 i{background:repeating-linear-gradient(90deg,var(--anil) 0 22px,var(--cal-2) 22px 44px)}
+.ph3 i{background:radial-gradient(circle at 30% 60%,var(--anil) 0 25%,transparent 26%),radial-gradient(circle at 70% 40%,var(--trigo) 0 22%,transparent 23%),var(--cal-2)}
+.note{font-size:.9rem;color:var(--muted);margin-top:1.5rem}
+@media (max-width:860px){.news{grid-template-columns:1fr}}
+
+/* Contacto */
+.contacto{background:var(--anil);color:var(--on-anil);padding-block:5rem}
+.contacto .wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:3rem;align-items:end}
+.contacto h2{font-size:clamp(2.2rem,5vw,4rem)}
+.contacto dl{display:grid;grid-template-columns:auto 1fr;gap:.6rem 1.5rem;margin:0}
+.contacto dt{font-weight:700;opacity:.75}
+.contacto dd{margin:0}
+.contacto .btn{background:var(--trigo);color:#1C2140}
+@media (max-width:760px){.contacto .wrap{grid-template-columns:1fr}}
+footer{padding-block:2rem;color:var(--muted);font-size:.95rem}
+footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+/* Aparición al hacer scroll: visible por defecto, solo se anima si hay JS */
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s,transform .9s cubic-bezier(.2,.7,.1,1)}
+.js .reveal.in{opacity:1;transform:none}
+
+@media (max-width:860px){.hero .wrap{grid-template-columns:1fr;padding-block:3rem 0}.hero-text{padding-bottom:1rem}.scene{min-height:300px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.js .reveal{opacity:1;transform:none}.cita blockquote .w{opacity:1}}
+</style>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#inicio"><span class="logo-mark" aria-hidden="true">CA</span><span>Fundación Carmen Arias<small>Socuéllamos · Ciudad Real</small></span></a>
+    <nav aria-label="Principal"><ul>
+      <li><a href="#centros">Centros</a></li>
+      <li><a href="#fundacion">La Fundación</a></li>
+      <li><a href="#noticias">Noticias</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul></nav>
+  </div>
+</header>
+
+<main id="inicio">
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-text">
+      <p class="eyebrow">Complejo Residencial “Ntra. Sra. del Carmen”</p>
+      <h1>
+        <span class="ln"><span>Cuidar es</span></span>
+        <span class="ln"><span>nuestra forma</span></span>
+        <span class="ln"><span>de <em>estar</em>.</span></span>
+      </h1>
+      <p class="lead">Residencia, centro de día y atención a domicilio en Socuéllamos. Más de 250 personas y sus familias confían en nosotros cada día.</p>
+      <div class="ctas">
+        <a class="btn" href="#centros">Conoce nuestros centros →</a>
+        <a class="btn ghost" href="#contacto">Pide información</a>
+      </div>
+    </div>
+    <div class="scene" aria-hidden="true">
+      <svg viewBox="0 0 400 420" preserveAspectRatio="xMidYMax meet">
+        <circle class="sun" cx="320" cy="90" r="46"/>
+        <g class="cloud"><ellipse cx="40" cy="60" rx="38" ry="12"/><ellipse cx="62" cy="52" rx="22" ry="12"/></g>
+        <path class="field2" d="M0 360 Q120 330 250 345 T400 335 V420 H0Z"/>
+        <path class="field1" d="M0 380 Q150 355 300 372 T400 365 V420 H0Z"/>
+        <path class="field3" d="M0 400 Q200 385 400 398 V420 H0Z"/>
+        <!-- torre -->
+        <path class="mill-body" d="M168 168 L232 168 L248 372 L152 372Z"/>
+        <path class="mill-stroke" d="M168 168 L232 168 L248 372 L152 372Z"/>
+        <path class="mill-cap" d="M160 170 Q200 112 240 170Z"/>
+        <path class="mill-door" d="M188 372 V330 Q200 318 212 330 V372Z"/>
+        <rect class="mill-door" x="194" y="230" width="12" height="18" rx="6"/>
+        <!-- aspas -->
+        <g class="sails">
+          <g id="aspa">
+            <line class="sail-frame" x1="200" y1="150" x2="200" y2="20"/>
+            <rect class="sail-cloth" x="202" y="30" width="22" height="104"/>
+            <path class="sail-frame" d="M202 52 H224 M202 74 H224 M202 96 H224 M202 118 H224"/>
+          </g>
+          <use href="#aspa" transform="rotate(90 200 150)"/>
+          <use href="#aspa" transform="rotate(180 200 150)"/>
+          <use href="#aspa" transform="rotate(270 200 150)"/>
+          <circle cx="200" cy="150" r="7" class="mill-cap"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="zocalo" aria-hidden="true">
+  <div class="marquee">
+    <span>Residencia<i>✦</i></span><span>Centro de día<i>✦</i></span><span>SEPAP<i>✦</i></span><span>Ayuda a domicilio<i>✦</i></span><span>Socuéllamos, La Mancha<i>✦</i></span>
+    <span>Residencia<i>✦</i></span><span>Centro de día<i>✦</i></span><span>SEPAP<i>✦</i></span><span>Ayuda a domicilio<i>✦</i></span><span>Socuéllamos, La Mancha<i>✦</i></span>
+  </div>
+</div>
+
+<section class="cifras" id="fundacion">
+  <div class="wrap">
+    <div class="intro reveal">
+      <h2>Un hogar en el corazón de La Mancha.</h2>
+      <p>La Fundación Carmen Arias atiende a personas mayores, a adultos jóvenes con daño cerebral sobrevenido y a personas adultas con problemas de salud mental. Lo hacemos con profesionales cercanos, en un entorno tranquilo y abierto al pueblo y a las familias.</p>
+    </div>
+    <div class="cifras-grid">
+      <div class="cifra reveal"><b data-n="146">146</b><span>plazas residenciales</span></div>
+      <div class="cifra reveal"><b data-n="40">40</b><span>plazas en Centro de día</span></div>
+      <div class="cifra reveal"><b data-n="65">65</b><span>plazas en el SEPAP</span></div>
+      <div class="cifra reveal"><b data-n="100" data-plus>+100</b><span>personas atendidas en su casa</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="centros" id="centros">
+  <div class="wrap">
+    <div class="centros-head reveal">
+      <h2>Nuestros centros</h2>
+      <p>Cada persona necesita un tipo de apoyo distinto. Por eso la Fundación se organiza en centros y servicios especializados.</p>
+    </div>
+    <ul class="centro-list">
+      <li class="centro reveal"><a href="#contacto"><h3>Residencia de Mayores</h3><p>Atención integral 24 horas, con cuidados sanitarios, actividades y una vida diaria con sentido.</p><span class="plazas">146 plazas*</span></a></li>
+      <li class="centro reveal"><a href="#contacto"><h3>Daño Cerebral Sobrevenido</h3><p>Plazas para adultos jóvenes, con rehabilitación y apoyo para recuperar autonomía.</p><span class="plazas">Ver plazas</span></a></li>
+      <li class="centro reveal"><a href="#contacto"><h3>Salud Mental</h3><p>Acompañamiento a personas adultas con problemas de salud mental en un entorno estable.</p><span class="plazas">Ver plazas</span></a></li>
+      <li class="centro reveal"><a href="#contacto"><h3>Centro de Día</h3><p>Durante el día con nosotros, por la tarde en casa. Respiro para las familias.</p><span class="plazas">40 plazas</span></a></li>
+      <li class="centro reveal"><a href="#contacto"><h3>SEPAP</h3><p>Servicio de Promoción de la Autonomía Personal: prevenir la dependencia y mantener capacidades.</p><span class="plazas">65 plazas</span></a></li>
+      <li class="centro reveal"><a href="#contacto"><h3>Ayuda a Domicilio</h3><p>Gestionamos el SAD de Socuéllamos: cuidados en la propia casa de cada persona.</p><span class="plazas">+100 personas</span></a></li>
+    </ul>
+    <p class="note">* Las 146 plazas residenciales se reparten entre mayores, daño cerebral y salud mental. Faltan las cifras de cada centro.</p>
+  </div>
+</section>
+
+<section class="cita">
+  <div class="wrap">
+    <figure class="grid reveal" style="margin:0">
+      <svg viewBox="0 0 120 140" aria-hidden="true"><path d="M40 40 L80 40 L90 135 L30 135Z" fill="none" stroke="currentColor" stroke-width="3"/><path d="M34 42 Q60 10 86 42Z" fill="currentColor"/><g style="transform-origin:60px 34px;animation:spin 14s linear infinite"><path d="M60 34 V0 M60 34 H94 M60 34 V68 M60 34 H26" stroke="currentColor" stroke-width="3"/></g></svg>
+      <div>
+        <blockquote id="quote">Sábete, Sancho, que no es un hombre más que otro si no hace más que otro.</blockquote>
+        <figcaption>Miguel de Cervantes, <i>Don Quijote de la Mancha</i>, I, cap. 18</figcaption>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<section class="noticias" id="noticias">
+  <div class="wrap">
+    <div class="noticias-head reveal">
+      <h2>Noticias</h2>
+      <a class="btn ghost" href="#noticias">Ver todas</a>
+    </div>
+    <div class="news">
+      <a class="card reveal ph1" href="#noticias"><div class="img"><span class="tag">Actividades</span><i></i></div><time>Ejemplo · noviembre</time><h3>Titular de ejemplo: salida al campo con los residentes</h3></a>
+      <a class="card reveal ph2" href="#noticias"><div class="img"><span class="tag">Familias</span><i></i></div><time>Ejemplo · octubre</time><h3>Titular de ejemplo: jornada de puertas abiertas</h3></a>
+      <a class="card reveal ph3" href="#noticias"><div class="img"><span class="tag">Centro de día</span><i></i></div><time>Ejemplo · octubre</time><h3>Titular de ejemplo: taller de memoria y música</h3></a>
+    </div>
+    <p class="note">Noticias de ejemplo. En WordPress se cargarán solas desde las entradas que publiquéis.</p>
+  </div>
+</section>
+
+<section class="contacto" id="contacto">
+  <div class="wrap">
+    <div class="reveal">
+      <p class="eyebrow" style="color:inherit;opacity:.75">Contacto</p>
+      <h2>Ven a conocernos.</h2>
+    </div>
+    <div class="reveal">
+      <dl>
+        <dt>Dónde</dt><dd>Socuéllamos, Ciudad Real</dd>
+        <dt>Teléfono</dt><dd>Pendiente de añadir</dd>
+        <dt>Email</dt><dd>Pendiente de añadir</dd>
+      </dl>
+      <p style="margin-top:1.5rem"><a class="btn" href="#contacto">Solicitar una visita</a></p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© Fundación Carmen Arias · Socuéllamos</span><span>Aviso legal · Privacidad · Cookies</span></div></footer>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.classList.add('js');
+  // Aparición al hacer scroll
+  var io = new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){
+    var r = el.getBoundingClientRect(); if(r.top < innerHeight) el.classList.add('in'); else io.observe(el);
+  });
+  // Contadores
+  if(!reduce){
+    var co = new IntersectionObserver(function(es){es.forEach(function(e){
+      if(!e.isIntersecting) return; co.unobserve(e.target);
+      var el=e.target, n=+el.dataset.n, plus=el.hasAttribute('data-plus'), t0=performance.now();
+      (function tick(t){var p=Math.min(1,(t-t0)/1600), v=Math.round(n*(1-Math.pow(1-p,3)));
+        el.textContent=(plus?'+':'')+v; if(p<1) requestAnimationFrame(tick);})(t0);
+    })},{threshold:.6});
+    document.querySelectorAll('[data-n]').forEach(function(el){co.observe(el)});
+  }
+  // Cita que se ilumina palabra a palabra con el scroll
+  var q=document.getElementById('quote');
+  q.innerHTML=q.textContent.split(' ').map(function(w){return '<span class="w">'+w+'</span>'}).join(' ');
+  var ws=q.querySelectorAll('.w');
+  function lit(){var r=q.getBoundingClientRect(), p=(innerHeight*0.85-r.top)/(r.height+innerHeight*0.35);
+    p=Math.max(0,Math.min(1,p)); var k=Math.round(p*ws.length); ws.forEach(function(w,i){w.classList.toggle('on',i<k)});}
+  if(reduce) ws.forEach(function(w){w.classList.add('on')}); else {addEventListener('scroll',lit,{passive:true}); lit();}
+  // Parallax suave del molino
+  var sc=document.querySelector('.scene svg');
+  if(!reduce) addEventListener('scroll',function(){sc.style.transform='translateY('+Math.min(80,scrollY*0.15)+'px)'},{passive:true});
+})();
+</script>
