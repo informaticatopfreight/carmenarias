@@ -120,19 +120,36 @@ $molino = function ( $x, $y, $s, $vel, $retraso = 0 ) {
 	<rect class="acera" x="0" y="358" width="1200" height="14"/>
 	<path class="campo1" d="M0 372 Q300 362 600 370 T1200 366 V400 H0Z"/>
 
-	<!-- Paseo: persona mayor con bastón y cuidadora -->
-	<g transform="translate(-112 0)"><g class="paseo">
-		<g class="persona-mayor">
-			<circle cx="830" cy="318" r="7" class="piel"/>
-			<path d="M823 328 Q830 323 837 328 L838 348 H822Z" class="abrigo"/>
-			<path d="M826 348 L825 360 M834 348 L836 360" class="pierna"/>
-			<path d="M837 334 L846 338 L848 360" class="baston"/>
-		</g>
-		<g class="cuidadora">
-			<circle cx="812" cy="312" r="7" class="piel"/>
+	<!-- Pájaros cruzando el cielo -->
+	<g class="pajaros">
+		<g transform="translate(0 70)"><path class="pajaro" d="M0 0 Q6 -6 12 0 Q18 -6 24 0"/></g>
+		<g transform="translate(34 58)"><path class="pajaro pajaro-2" d="M0 0 Q5 -5 10 0 Q15 -5 20 0"/></g>
+		<g transform="translate(58 78)"><path class="pajaro pajaro-3" d="M0 0 Q4 -4 8 0 Q12 -4 16 0"/></g>
+	</g>
+
+	<!-- Residente sentado en el banco, saludando -->
+	<g class="sentado">
+		<circle cx="782" cy="314" r="7" class="piel"/>
+		<path d="M775 324 Q782 319 789 324 L790 338 H774Z" class="rebeca"/>
+		<path d="M776 338 H792 M790 338 L792 352" class="pierna"/>
+		<path class="brazo-saludo" d="M788 327 L797 316"/>
+	</g>
+
+	<!-- Paseo: persona mayor con bastón y cuidadora, de ida y vuelta -->
+	<g transform="translate(-150 0)"><g class="paseo">
+		<g class="cuidadora andar">
+			<path d="M808 346 L808 360" class="pierna pierna-a"/>
+			<path d="M816 346 L816 360" class="pierna pierna-b"/>
 			<path d="M804 322 Q812 316 820 322 L821 346 H803Z" class="uniforme"/>
-			<path d="M808 346 L807 360 M816 346 L818 360" class="pierna"/>
-			<path d="M820 330 Q825 334 826 333" class="brazo"/>
+			<circle cx="812" cy="312" r="7" class="piel"/>
+			<path d="M820 330 Q825 334 827 333" class="brazo"/>
+		</g>
+		<g class="persona-mayor andar andar-lento">
+			<path d="M826 348 L826 360" class="pierna pierna-a"/>
+			<path d="M834 348 L834 360" class="pierna pierna-b"/>
+			<path d="M823 328 Q830 323 837 328 L838 348 H822Z" class="abrigo"/>
+			<circle cx="830" cy="318" r="7" class="piel"/>
+			<path d="M837 334 L846 338 L848 360" class="baston"/>
 		</g>
 	</g></g>
 </svg>

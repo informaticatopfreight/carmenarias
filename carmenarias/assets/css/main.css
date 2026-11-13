@@ -264,13 +264,47 @@ p { margin: 0 0 1em; }
 .teja { fill: var(--teja); }
 .teja-linea { stroke: rgba(0, 0, 0, .25); stroke-width: 1; fill: none; }
 .acera { fill: var(--cal-3); }
-.paseo .piel { fill: #E9C4A2; stroke: var(--ink); stroke-width: 1; }
+.paseo .piel, .sentado .piel { fill: #E9C4A2; stroke: var(--ink); stroke-width: 1; }
 .paseo .abrigo { fill: var(--oro-ink); }
 .paseo .uniforme { fill: var(--anil); }
-.paseo .pierna, .paseo .brazo { stroke: var(--ink); stroke-width: 3; stroke-linecap: round; fill: none; }
+.sentado .rebeca { fill: var(--teja); }
+.paseo .pierna, .paseo .brazo, .sentado .pierna, .sentado .brazo-saludo { stroke: var(--ink); stroke-width: 3; stroke-linecap: round; fill: none; }
 .paseo .baston { stroke: var(--ink); stroke-width: 2; stroke-linecap: round; fill: none; }
-.paseo { animation: pasear 9s ease-in-out infinite alternate; }
-@keyframes pasear { from { transform: translateX(0); } to { transform: translateX(-28px); } }
+
+/* Paseo de ida y vuelta: van hacia la derecha, se dan la vuelta y regresan */
+.paseo { transform-box: fill-box; transform-origin: center; animation: pasear 26s linear infinite; }
+@keyframes pasear {
+	0% { transform: translateX(-130px) scaleX(1); }
+	46% { transform: translateX(30px) scaleX(1); }
+	50% { transform: translateX(30px) scaleX(-1); }
+	96% { transform: translateX(-130px) scaleX(-1); }
+	100% { transform: translateX(-130px) scaleX(1); }
+}
+.andar { animation: balanceo .7s ease-in-out infinite alternate; }
+.andar-lento { animation-duration: .9s; }
+@keyframes balanceo { from { transform: translateY(0); } to { transform: translateY(-1.2px); } }
+.pierna-a, .pierna-b { transform-box: fill-box; transform-origin: top center; animation: paso .7s ease-in-out infinite alternate; }
+.pierna-b { animation-delay: -.7s; }
+.andar-lento .pierna-a, .andar-lento .pierna-b { animation-duration: .9s; }
+.andar-lento .pierna-b { animation-delay: -.9s; }
+@keyframes paso { from { transform: rotate(-16deg); } to { transform: rotate(16deg); } }
+
+/* Saludo desde el banco */
+.brazo-saludo { transform-box: fill-box; transform-origin: bottom left; animation: saludar 6s ease-in-out infinite; }
+@keyframes saludar {
+	0%, 60%, 100% { transform: rotate(0); }
+	66%, 78% { transform: rotate(-22deg); }
+	72%, 84% { transform: rotate(14deg); }
+}
+
+/* Pájaros */
+.pajaro { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; opacity: .55; }
+.pajaros { animation: volar 32s linear infinite; }
+@keyframes volar { from { transform: translate(-120px, 20px); } to { transform: translate(1320px, -30px); } }
+.pajaro { transform-box: fill-box; transform-origin: center; animation: aletear .5s ease-in-out infinite alternate; }
+.pajaro-2 { animation-delay: -.2s; }
+.pajaro-3 { animation-delay: -.35s; }
+@keyframes aletear { from { transform: scaleY(1); } to { transform: scaleY(.35); } }
 .nube-2 { animation-duration: 90s; animation-delay: -40s; }
 .sol { fill: var(--oro); opacity: .35; }
 .molino-cuerpo { fill: var(--cal); }
