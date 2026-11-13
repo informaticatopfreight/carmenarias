@@ -75,7 +75,7 @@ function ca_migracion_pantalla() {
 
 		<p style="max-width:70ch">Esta herramienta deja la web lista con el nuevo diseño:</p>
 		<ol style="max-width:70ch">
-			<li><strong>Páginas:</strong> cambia el contenido hecho con Divi de <?php echo count( $datos ); ?> páginas por bloques normales de WordPress (los mismos textos, imágenes, desplegables y galerías), pone títulos legibles y asigna su plantilla. Los centros quedan marcados para la portada.</li>
+			<li><strong>Páginas:</strong> crea la página «Sector solidario» (Misión, Visión y Valores juntas; las direcciones antiguas redirigen a ella), cambia el contenido hecho con Divi de <?php echo count( $datos ); ?> páginas por bloques normales de WordPress (los mismos textos, imágenes, desplegables y galerías), pone títulos legibles y asigna su plantilla. Los centros quedan marcados para la portada.</li>
 			<li><strong>Menús:</strong> crea el menú principal y el menú legal del pie y los asigna.</li>
 			<li><strong>Portada:</strong> usa la página «Inicio» como portada.</li>
 		</ol>
@@ -197,6 +197,12 @@ function ca_migracion_pagina( $p ) {
 	update_post_meta( $id, '_et_pb_use_builder', 'off' );
 	delete_post_meta( $id, '_et_pb_old_content' );
 
+	if ( ! empty( $p['redirige'] ) ) {
+		update_post_meta( $id, '_ca_redirige', $p['redirige'] );
+	} else {
+		delete_post_meta( $id, '_ca_redirige' );
+	}
+
 	if ( isset( $p['centro'] ) ) {
 		update_post_meta( $id, CA_META_ES_CENTRO, '1' );
 		update_post_meta( $id, CA_META_NOMBRE, $p['centro']['titulo'] );
@@ -243,8 +249,25 @@ function ca_migracion_menus() {
 
 	// Principal.
 	$menu = $nuevo( 'Carmen Arias · Principal' );
-	$fun  = $add( $menu, $pid( 'mision' ), 0, 'La Fundación' );
-	foreach ( array( 'mision' => 'Misión', 'vision' => 'Visión', 'valores' => 'Valores', 'organigrama' => 'Organigrama', 'calidad' => 'Calidad', 'transparencia' => 'Transparencia', 'colabora-con-nosotros' => 'Colabora con nosotros' ) as $s => $t ) {
+	$custom = function ( $menu_id, $titulo, $url, $padre = 0 ) {
+		return wp_update_nav_menu_item( $menu_id, 0, array(
+			'menu-item-title'     => $titulo,
+			'menu-item-url'       => $url,
+			'menu-item-type'      => 'custom',
+			'menu-item-status'    => 'publish',
+			'menu-item-parent-id' => $padre,
+		) );
+	};
+	$custom( $menu, 'Inicio', home_url( '/' ) );
+	$ss = $add( $menu, $pid( 'sector-solidario' ), 0, 'Sector solidario' );
+	if ( $ss ) {
+		$base = get_permalink( $pid( 'sector-solidario' ) );
+		foreach ( array( 'mision' => 'Misión', 'vision' => 'Visión', 'valores' => 'Valores' ) as $a => $t ) {
+			$custom( $menu, $t, $base . '#' . $a, $ss );
+		}
+	}
+	$fun = $add( $menu, $pid( 'organigrama' ), 0, 'La Fundación' );
+	foreach ( array( 'organigrama' => 'Organigrama', 'calidad' => 'Calidad', 'transparencia' => 'Transparencia', 'colabora-con-nosotros' => 'Colabora con nosotros' ) as $s => $t ) {
 		$add( $menu, $pid( $s ), $fun, $t );
 	}
 	$cen = $add( $menu, $pid( 'servicios' ), 0, 'Centros' );

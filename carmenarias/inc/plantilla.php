@@ -216,17 +216,21 @@ function ca_menu_reserva() {
 		$p = get_page_by_path( $slug );
 		return $p ? get_permalink( $p ) : home_url( '/' . $slug . '/' );
 	};
+	$ss = $url( 'sector-solidario' );
+	echo '<ul class="menu">';
+	echo '<li><a href="' . esc_url( home_url( '/' ) ) . '">Inicio</a></li>';
+	echo '<li class="menu-item-has-children"><a href="' . esc_url( $ss ) . '">Sector solidario</a><ul class="sub-menu">';
+	foreach ( array( 'mision' => 'Misión', 'vision' => 'Visión', 'valores' => 'Valores' ) as $a => $t ) {
+		echo '<li><a href="' . esc_url( $ss . '#' . $a ) . '">' . esc_html( $t ) . '</a></li>';
+	}
+	echo '</ul></li>';
 	$fundacion = array(
-		'mision'                => 'Misión',
-		'vision'                => 'Visión',
-		'valores'               => 'Valores',
 		'organigrama'           => 'Organigrama',
 		'calidad'               => 'Calidad',
 		'transparencia'         => 'Transparencia',
 		'colabora-con-nosotros' => 'Colabora con nosotros',
 	);
-	echo '<ul class="menu">';
-	echo '<li class="menu-item-has-children"><a href="' . esc_url( $url( 'mision' ) ) . '">La Fundación</a><ul class="sub-menu">';
+	echo '<li class="menu-item-has-children"><a href="' . esc_url( $url( 'organigrama' ) ) . '">La Fundación</a><ul class="sub-menu">';
 	foreach ( $fundacion as $s => $t ) {
 		echo '<li><a href="' . esc_url( $url( $s ) ) . '">' . esc_html( $t ) . '</a></li>';
 	}
@@ -317,3 +321,25 @@ function ca_llamada() {
 	</section>
 	<?php
 }
+
+/**
+ * Redirige las páginas antiguas (Misión, Visión, Valores…) a su nuevo sitio.
+ * El destino se guarda en el campo personalizado «_ca_redirige» de la página.
+ */
+add_action( 'template_redirect', function () {
+	if ( ! is_page() ) {
+		return;
+	}
+	$destino = get_post_meta( get_queried_object_id(), '_ca_redirige', true );
+	if ( ! $destino ) {
+		return;
+	}
+	$partes = explode( '#', $destino, 2 );
+	$pagina = get_page_by_path( $partes[0] );
+	if ( ! $pagina || (int) $pagina->ID === get_queried_object_id() ) {
+		return;
+	}
+	$url = get_permalink( $pagina ) . ( isset( $partes[1] ) ? '#' . $partes[1] : '' );
+	wp_safe_redirect( $url, 301 );
+	exit;
+} );

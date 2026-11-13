@@ -75,6 +75,35 @@ $frases      = ca_opt_lineas( 'marquesina' );
 	</div>
 </section>
 
+<?php
+$ss_pag = get_page_by_path( 'sector-solidario' );
+if ( $ss_pag ) :
+	$ss_url = get_permalink( $ss_pag );
+	$ss     = array(
+		'mision'  => array( 'Misión', 'Atender a las personas mayores más vulnerables, con calidad y calidez.' ),
+		'vision'  => array( 'Visión', 'Ser referencia entre las instituciones que sirven a las personas dependientes.' ),
+		'valores' => array( 'Valores', 'Dignidad, plenitud, calidad, compromiso ético y solidaridad.' ),
+	);
+	?>
+<section class="solidario">
+	<div class="wrap">
+		<div class="solidario-cab reveal">
+			<p class="antetitulo">Sector solidario</p>
+			<h2>Inspirados en el humanismo cristiano, al servicio de las personas.</h2>
+		</div>
+		<div class="solidario-grid">
+			<?php foreach ( $ss as $ancla => $d ) : ?>
+				<a class="solidario-item reveal" href="<?php echo esc_url( $ss_url . '#' . $ancla ); ?>">
+					<h3><?php echo esc_html( $d[0] ); ?></h3>
+					<p><?php echo esc_html( $d[1] ); ?></p>
+					<span class="solidario-mas">Leer más <?php echo ca_icono( 'flecha' ); // phpcs:ignore ?></span>
+				</a>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</section>
+<?php endif; ?>
+
 <section class="historia">
 	<div class="wrap">
 		<div class="historia-cab reveal">

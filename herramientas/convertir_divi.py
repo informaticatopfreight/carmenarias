@@ -528,6 +528,232 @@ def convert_page(raw_html):
     return "\n\n".join(out), ctx
 
 
+# ---------------------------------------------------------------------------
+# Páginas institucionales con diseño propio.
+# Se escriben a mano (con los textos de la web antigua) como bloques de
+# WordPress con clases del tema, para que sigan siendo editables.
+# ---------------------------------------------------------------------------
+
+U = "https://carmenarias.es/wp-content/uploads/"
+
+
+def g(clase, *hijos, anchor=None, tag="div"):
+    attrs = {"className": clase}
+    if anchor:
+        attrs = {"anchor": anchor, **attrs}
+    if tag != "div":
+        attrs["tagName"] = tag
+    idattr = f' id="{anchor}"' if anchor else ""
+    inner = "\n\n".join(h for h in hijos if h)
+    return (f"<!-- wp:group {json.dumps(attrs, ensure_ascii=False)} -->\n"
+            f"<{tag}{idattr} class=\"wp-block-group {clase}\">{inner}</{tag}>\n<!-- /wp:group -->")
+
+
+def h(texto, nivel=2, clase="", anchor=None):
+    attrs = {}
+    if nivel != 2:
+        attrs["level"] = nivel
+    if clase:
+        attrs["className"] = clase
+    if anchor:
+        attrs["anchor"] = anchor
+    a = (" " + json.dumps(attrs, ensure_ascii=False)) if attrs else ""
+    cls = "wp-block-heading" + (f" {clase}" if clase else "")
+    idattr = f' id="{anchor}"' if anchor else ""
+    return f"<!-- wp:heading{a} -->\n<h{nivel}{idattr} class=\"{cls}\">{texto}</h{nivel}>\n<!-- /wp:heading -->"
+
+
+def p(texto, clase=""):
+    if clase:
+        return (f"<!-- wp:paragraph {{\"className\":\"{clase}\"}} -->\n<p class=\"{clase}\">{texto}</p>\n<!-- /wp:paragraph -->")
+    return f"<!-- wp:paragraph -->\n<p>{texto}</p>\n<!-- /wp:paragraph -->"
+
+
+def lista(items):
+    li = "\n".join(f"<!-- wp:list-item -->\n<li>{i}</li>\n<!-- /wp:list-item -->" for i in items)
+    return f"<!-- wp:list -->\n<ul class=\"wp-block-list\">{li}</ul>\n<!-- /wp:list -->"
+
+
+def foto(url, alt="", clase=""):
+    hit = buscar_medio(url)
+    attrs = {"sizeSlug": "large", "linkDestination": "none"}
+    imgcls = ""
+    if hit:
+        attrs = {"id": hit[0], **attrs}
+        imgcls = f' class="wp-image-{hit[0]}"'
+        url = hit[1]
+    if clase:
+        attrs["className"] = clase
+    fcls = "wp-block-image size-large" + (f" {clase}" if clase else "")
+    return (f"<!-- wp:image {json.dumps(attrs)} -->\n<figure class=\"{fcls}\"><img src=\"{esc(url)}\" alt=\"{esc(alt)}\"{imgcls}/></figure>\n<!-- /wp:image -->")
+
+
+def tarjeta(titulo, texto, etiqueta=""):
+    return g("ca-tarjeta",
+             p(etiqueta, "ca-tarjeta-etiqueta") if etiqueta else "",
+             h(titulo, 3),
+             p(texto))
+
+
+def indice(enlaces):
+    items = " ".join(f'<a href="#{a}">{t}</a>' for a, t in enlaces)
+    return p(items, "ca-indice")
+
+
+def doc(texto, url):
+    return p(f'<a href="{esc(url)}" target="_blank" rel="noreferrer noopener">{texto}</a>', "ca-doc")
+
+
+def pagina_sector_solidario():
+    return "\n\n".join([
+        p("Somos una entidad sin ánimo de lucro, inspirada en los valores del humanismo cristiano y miembro de <strong>ACESCAM</strong>, la Asociación de Residencias y Servicios de Atención a los Mayores del sector solidario. Esto es lo que nos mueve, hacia dónde vamos y en qué creemos.", "ca-entradilla"),
+        indice([("mision", "Misión"), ("vision", "Visión"), ("valores", "Valores")]),
+
+        g("ca-seccion",
+          g("ca-seccion-cab",
+            p("Misión", "ca-antetitulo"),
+            h("Atendemos a las necesidades de las personas mayores más vulnerables."),
+            ),
+          g("ca-tarjetas",
+            tarjeta("Nuestra inspiración", "Somos una organización inspirada en los valores del humanismo cristiano que tiene por finalidad principal atender a las necesidades de las personas mayores más vulnerables, orientando preferentemente nuestra actividad hacia los ámbitos sociales de más acuciante necesidad y de más escasos recursos. En consonancia con los cambios de nuestra sociedad, ampliamos nuestra actividad a la atención a personas dependientes."),
+            tarjeta("Definición", "Nos define el empeño común de prestar a las personas destinatarias una atención de calidad y calidez, personalizada, de forma que vean satisfechas sus necesidades y expectativas, y cubiertas todas sus dimensiones como personas. Fruto de esa actitud ante el servicio es nuestro compromiso expreso con la mejora continua."),
+            tarjeta("Consideración", "Consideramos clave el valor añadido que aportan las personas en la prestación del servicio y en la gestión de nuestra institución. Conscientes del origen de nuestros recursos, actuamos con rigor y con criterios de eficiencia y de compromiso social."),
+            ),
+          g("ca-fotos",
+            foto(U + "2021/04/mision-fundacion-carmen-arias-4-1280x857.jpeg", "Residentes y profesionales de la Fundación"),
+            foto(U + "2021/04/mision-fundacion-carmen-arias-5-1280x857.jpeg", "Actividad en la residencia"),
+            foto(U + "2021/04/mision-fundacion-carmen-arias-3-1280x857.jpeg", "Atención personalizada"),
+            ),
+          anchor="mision"),
+
+        g("ca-seccion",
+          g("ca-seccion-cab",
+            p("Visión", "ca-antetitulo"),
+            h("Queremos ser referencia entre las instituciones que sirven a las personas dependientes."),
+            ),
+          g("ca-tarjetas ca-tarjetas-2",
+            tarjeta("Calidad humana", "En la calidad humana y técnica de nuestros servicios, en su individualización e integralidad y en su adecuación a las necesidades de las personas, usuarias o potenciales."),
+            tarjeta("Consideración", "En el valor que damos a las personas que prestan el servicio, impulsando su capacitación, sus cualidades humanas, su motivación para el servicio y su implicación en la organización."),
+            tarjeta("Cohesión", "Como organización cohesionada, capaz de compartir recursos y promover alianzas para conseguir un sector solidario, sólido y significativo, que proyecte sus valores hacia la sociedad y contribuya a transformarla."),
+            tarjeta("Organización abierta", "Abierta a la colaboración entre agentes sociales públicos y privados, para mejorar el sistema de servicios sociales y conseguir mayores cotas de justicia social."),
+            ),
+          g("ca-fotos ca-fotos-2",
+            foto(U + "2021/05/Foto-para-vision-1280x960.jpg", "Profesionales de la Fundación"),
+            foto(U + "2021/04/vision-2.jpeg", "Vida en el centro"),
+            ),
+          anchor="vision"),
+
+        g("ca-seccion",
+          g("ca-seccion-cab",
+            p("Valores", "ca-antetitulo"),
+            h("La persona es la razón de ser de nuestro servicio."),
+            ),
+          g("ca-tarjetas ca-valores",
+            tarjeta("Dignidad", "Estamos comprometidos con la defensa de la dignidad y los derechos de cada persona, más aún cuanto más vulnerable sea su situación.", "La dignidad de toda persona"),
+            tarjeta("Plenitud", "Reconocemos la vejez como una etapa de plenitud de vida y experiencia, capaz de aportar a la sociedad y a otras personas, con sentido de solidaridad y corresponsabilidad.", "La vejez, etapa de plenitud"),
+            tarjeta("Convencimiento", "Atendemos a la persona en todas sus dimensiones: física, psíquica, emocional, social y espiritual. Cada persona es una realidad única e irrepetible.", "Cada persona, única"),
+            tarjeta("Calidad", "Buscamos la excelencia en los servicios e incorporamos a la mejora los avances tecnológicos y las mejores prácticas.", "Calidad asistencial y relacional"),
+            tarjeta("Compromiso", "Nuestras decisiones profesionales se basan en el respeto a la autonomía de las personas, la búsqueda de su bienestar y la justicia.", "Compromiso ético"),
+            tarjeta("Solidaridad", "La solidaridad nos configura como red: compartimos nuestro saber hacer, nos apoyamos mutuamente y fortalecemos el sector solidario del que formamos parte.", "Trabajar en red"),
+            ),
+          g("ca-fotos",
+            foto(U + "2021/04/valores-1.jpeg", "Fiesta en la residencia"),
+            foto(U + "2021/04/valores-3.jpeg", "Taller de cocina"),
+            foto(U + "2021/05/Foto-para-VAlores-1280x768.jpg", "Residentes de la Fundación"),
+            ),
+          anchor="valores"),
+    ])
+
+
+def pagina_organigrama():
+    return "\n\n".join([
+        p("Así se organiza la Fundación Carmen Arias: del Patronato a cada uno de los equipos que cuidan, día a día, de las personas que atendemos.", "ca-entradilla"),
+        foto(U + "2022/10/Organigrama-FCA-scaled.jpg", "Organigrama de la Fundación Carmen Arias", "ca-organigrama"),
+        p("Pulsa sobre el organigrama para verlo a tamaño completo.", "ca-nota"),
+    ])
+
+
+def pagina_calidad():
+    return "\n\n".join([
+        p("La filosofía de gestión de este Centro se basa en el cumplimiento de los servicios que oferta, buscando siempre que la atención se dé de manera profesional y con garantías de calidad suficientes.", "ca-entradilla"),
+        g("ca-dos-col",
+          g("ca-col",
+            p("La calidad se traduce en que cada residente pueda tener cubiertas todas las necesidades que se detecten en la valoración de los profesionales del Equipo Interdisciplinar y las que las personas usuarias refieran o demanden. Tras esa valoración se pautan las medidas de <strong>Atención Individualizada</strong> para cada persona, y esa especificación del trabajo es la que da garantía de calidad en la atención sociosanitaria."),
+            p("Se trata de cubrir la <strong>esfera bio-psico-social</strong> de nuestros usuarios, trabajando tanto con residentes como con familiares y buscando canales continuos de comunicación abierta, de forma que los servicios mejoren con las apreciaciones de las personas y con las medidas de autoevaluación internas."),
+            ),
+          g("ca-col",
+            p("Nuestra política de trabajo incluye ofrecer una respuesta de <strong>calidad, rápida y eficaz</strong> a las entidades con las que nos relacionamos: la Administración Pública, otros agentes sociales y las personas que pueden necesitar nuestros servicios."),
+            p("Para cumplir este compromiso, la Fundación se apoya en un <strong>equipo humano preparado, formado y motivado</strong>, y es también compromiso del Centro trabajar en ese sentido."),
+            ),
+          ),
+        p("No buscamos solo cumplir las expectativas de las personas, sino la <strong>excelencia</strong> en el servicio.", "ca-frase"),
+        h("Objetivos generales"),
+        p("La Dirección marca cada año unos objetivos específicos y cuantificables que se revisan anualmente para alcanzar estos objetivos generales:"),
+        g("ca-tarjetas",
+          tarjeta("Satisfacción", "Cumplir la oferta socioasistencial del Centro, aportando satisfacción a cada persona."),
+          tarjeta("Normativa e ISO 9001", "Cumplir la legislación vigente de referencia y la norma UNE-EN ISO 9001."),
+          tarjeta("Mejora continua", "Mejorar de forma continua la eficacia del Sistema de Gestión de Calidad."),
+          ),
+        p("La Dirección del Centro, a través del Responsable de Calidad, se asegura de que esta política está disponible para todas las personas usuarias y partes interesadas que lo requieran, y de que el personal la conoce, la entiende y la aplica.", "ca-nota"),
+    ])
+
+
+def pagina_transparencia():
+    docs = [
+        ("2024", [("Informe de auditoría", "2026/02/G13046818-informe-de-auditoria-2024.pdf"), ("Memoria y cuentas anuales", "2026/02/Cuentas-anuales-2024.pdf")]),
+        ("2023", [("Informe de auditoría", "2026/02/Informe-Auditoria-de-Cuentas-Fundacion-Carmen-Arias-2023.pdf"), ("Memoria y cuentas anuales", "2026/02/Cuentas-anuales-2023.pdf")]),
+        ("2022", [("Informe de auditoría", "2026/02/Informe-de-Auditoria-Cuentas-2022.pdf"), ("Memoria y cuentas anuales", "2026/02/Cuentas-anuales-2022.pdf")]),
+        ("2021", [("Informe de auditoría", "2023/03/Informe-Auditoria-2021.pdf"), ("Memoria y cuentas anuales", "2023/03/Memoria-y-Cuentas-Anuales-2021.pdf")]),
+        ("2020", [("Memoria y cuentas anuales", "2023/03/Memoria-y-Cuentas-Anuales-2020.pdf")]),
+        ("2019", [("Memoria y cuentas anuales", "2023/03/Memoria-y-Cuentas-Anuales-2019.pdf")]),
+    ]
+    anios = [g("ca-anio", h(a, 3), *[doc(t, U + f) for t, f in lista_docs]) for a, lista_docs in docs]
+    return "\n\n".join([
+        p("Rendimos cuentas de cómo usamos nuestros recursos. Aquí tienes las memorias, las cuentas anuales y los informes de auditoría de cada año. Pulsa en un documento para verlo o descargarlo.", "ca-entradilla"),
+        g("ca-docs", *anios),
+    ])
+
+
+def pagina_canal():
+    return "\n\n".join([
+        p("La Fundación Carmen Arias cuenta con un <strong>Sistema Interno de Información (SII)</strong>, aprobado por su Patronato, para que cualquier persona que se relacione con nosotros (personal, residentes, familias, proveedores, donantes o la sociedad en general) pueda comunicar posibles infracciones administrativas, penales o de la normativa interna del centro.", "ca-entradilla"),
+        p("Lo establece la Ley 2/2023, de 20 de febrero, reguladora de la protección de las personas que informen sobre infracciones normativas y de lucha contra la corrupción. La persona Responsable del SII recibe cada información y le da el tratamiento oportuno, iniciando, si procede, una investigación sobre los hechos."),
+        g("ca-aviso",
+          h("Puedes comunicarlo de forma anónima", 3),
+          p("No es obligatorio dar tu nombre, apellidos ni correo electrónico, ni ningún otro dato que te identifique, por ninguna de las vías."),
+          ),
+        h("Documentos que lo regulan"),
+        g("ca-docs ca-docs-2",
+          g("ca-anio", h("Estatuto", 3), doc("Estatuto del Sistema Interno de Información", U + "2024/09/Estatuto-SII-Fundacion-Carmen-Arias.pdf")),
+          g("ca-anio", h("Reglamento", 3), doc("Reglamento del Sistema Interno de Información", U + "2024/09/Reglamento-SII-Fundacion-Carmen-Arias.pdf")),
+          ),
+        h("Tres formas de comunicarlo"),
+        g("ca-tarjetas",
+          tarjeta("Por correo postal", "Escribe a la sede de la Fundación indicando en el destinatario «Sistema Interno de Información» o «Al Responsable del Sistema Interno de Información»: C/ Bonillo, 106 · 13630 Socuéllamos (Ciudad Real).", "Vía 1"),
+          tarjeta("Por correo electrónico", 'Escribe a <a href="mailto:sistemadeinformacion@carmenarias.es">sistemadeinformacion@carmenarias.es</a>.', "Vía 2"),
+          tarjeta("Con el formulario", 'Rellena el <a href="#formulario-canal">formulario de esta página</a>. Solo es obligatorio describir los hechos.', "Vía 3"),
+          ),
+        h("Formulario", anchor="enviar"),
+        "<!-- wp:shortcode -->\n[carmenarias_contacto tipo=\"canal\"]\n<!-- /wp:shortcode -->",
+    ])
+
+
+PAGINAS_DISENO = {
+    "organigrama": ("page-templates/secciones.php", pagina_organigrama, "Organigrama", "Cómo se organiza la Fundación."),
+    "calidad": ("page-templates/secciones.php", pagina_calidad, "Calidad", "Nuestra política de calidad: atención profesional, individualizada y en mejora continua."),
+    "transparencia": ("page-templates/secciones.php", pagina_transparencia, "Transparencia", "Memorias, cuentas anuales e informes de auditoría."),
+    "canal-de-informacion-2": ("page-templates/secciones.php", pagina_canal, "Canal de información", "Sistema Interno de Información de la Fundación Carmen Arias (Ley 2/2023)."),
+}
+
+# Páginas antiguas que ahora redirigen (el tema hace la redirección).
+REDIRECCIONES = {
+    "mision": "sector-solidario#mision",
+    "vision": "sector-solidario#vision",
+    "valores": "sector-solidario#valores",
+    "canal-de-informacion": "canal-de-informacion-2",
+}
+
+
 def main(src, dst, medios=None):
     if medios:
         cargar_medios(medios)
@@ -562,7 +788,17 @@ def main(src, dst, medios=None):
         if slug == "contacto":
             item["plantilla"] = "page-templates/contacto.php"
             item["contenido"] = ""
+        if slug in PAGINAS_DISENO:
+            plantilla, fn, titulo, sub = PAGINAS_DISENO[slug]
+            item.update(plantilla=plantilla, contenido=fn(), titulo=titulo, subtitulo=sub)
+        if slug in REDIRECCIONES:
+            item["redirige"] = REDIRECCIONES[slug]
         result.append(item)
+    result.append({
+        "id": 0, "slug": "sector-solidario", "titulo": "Sector solidario",
+        "subtitulo": "Nuestra misión, nuestra visión y nuestros valores.",
+        "plantilla": "page-templates/secciones.php", "contenido": pagina_sector_solidario(),
+    })
     json.dump(result, open(dst, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     for r in result:
         print(f"{r['slug']:38} {len(r['contenido']):6} {r['plantilla']}")
