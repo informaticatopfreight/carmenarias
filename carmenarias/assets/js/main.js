@@ -122,7 +122,7 @@
 
 	/* ---------- Línea de la historia y parallax ---------- */
 	var linea = document.querySelector('[data-linea]');
-	var parallax = document.querySelector('[data-parallax] svg');
+	var parallax = document.querySelector('[data-parallax]');
 
 	var ticking = false;
 	function onScroll() {
@@ -142,7 +142,7 @@
 			linea.style.setProperty('--p', Math.max(0.02, Math.min(1, lp)).toFixed(3));
 		}
 		if (parallax && window.scrollY < h * 1.5) {
-			parallax.style.transform = 'translateY(' + Math.min(80, window.scrollY * 0.15) + 'px)';
+			parallax.style.transform = 'translateY(' + Math.min(40, window.scrollY * 0.08) + 'px)';
 		}
 	}
 	window.addEventListener('scroll', function () {

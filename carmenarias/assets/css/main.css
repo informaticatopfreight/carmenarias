@@ -18,6 +18,9 @@
 	--blanco: #FFFFFF;
 	--sky-a: #EAF0FA;
 	--sky-b: #FBF3E2;
+	--teja: #B8643F;
+	--madera: #A9713A;
+	--cristal: #2E3557;
 	--ok: #2F6B3A;
 	--error: #A3302A;
 
@@ -219,9 +222,13 @@ p { margin: 0 0 1em; }
 
 /* ---------- Portada: hero ---------- */
 .hero { position: relative; background: linear-gradient(180deg, var(--sky-a), var(--sky-b)); overflow: hidden; }
-.hero-in { display: grid; grid-template-columns: 1.15fr .85fr; gap: 2rem; align-items: end; padding-top: 4rem; }
-.hero-texto { padding-bottom: 5rem; min-width: 0; }
-.hero h1 { font-size: clamp(3rem, 7.6vw, 6.6rem); font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.hero-in { padding-top: 3.2rem; position: relative; z-index: 1; }
+.hero-texto { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "ante ante" "titulo lado"; gap: 0 4rem; align-items: end; min-width: 0; }
+.hero-texto > .antetitulo { grid-area: ante; }
+.hero-texto > h1 { grid-area: titulo; }
+.hero-lado { grid-area: lado; padding-bottom: .6rem; }
+.hero-lado .hero-lead { margin-top: 0; }
+.hero h1 { font-size: clamp(3rem, 6.6vw, 6rem); font-weight: 800; letter-spacing: -.03em; line-height: 1; }
 .hero h1 .ln { display: block; overflow: hidden; padding-bottom: .08em; }
 .hero h1 .ln > span { display: inline-block; animation: subir 1s var(--curva) both; }
 .hero h1 .ln:nth-child(2) > span { animation-delay: .14s; }
@@ -231,8 +238,40 @@ p { margin: 0 0 1em; }
 @keyframes subir { from { transform: translateY(105%); } to { transform: none; } }
 @keyframes aparecer { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
-.escena { position: relative; align-self: stretch; min-height: 440px; min-width: 0; }
-.escena-svg { position: absolute; inset: auto 0 0 0; width: 100%; height: 100%; will-change: transform; }
+/* Escena: fachada de la residencia con molinos en la loma */
+.escena { position: relative; height: clamp(250px, 32vw, 460px); margin-top: clamp(-2rem, -2vw, -1rem); }
+.escena-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.escena-fondo { will-change: transform; }
+.aspas-fondo { transform-box: fill-box; transform-origin: center; animation: girar 16s linear infinite; }
+.loma { fill: var(--oro-ink); opacity: .32; }
+.residencia .muro { fill: var(--cal); }
+.residencia .borde, .residencia .muro { stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
+.residencia .panos rect { fill: none; stroke: var(--line); stroke-width: 2; }
+.residencia .viga { fill: var(--cal); stroke: var(--ink); stroke-width: 1.6; }
+.residencia .columnas rect { fill: var(--cal-2); stroke: var(--ink); stroke-width: 1.6; }
+.residencia .pilar { fill: var(--cal); stroke: var(--ink); stroke-width: 1.8; }
+.residencia .sombra { fill: var(--cal-3); }
+.residencia .escalon { fill: var(--cal-2); stroke: var(--ink); stroke-width: 1.2; }
+.residencia .puertas rect { fill: var(--madera); stroke: var(--ink); stroke-width: 1.6; }
+.residencia .puertas path { stroke: var(--ink); stroke-width: 1; opacity: .45; }
+.residencia .placa, .residencia .tablon { fill: var(--blanco); stroke: var(--ink); stroke-width: 1.2; }
+.residencia .banco { fill: var(--madera); }
+.residencia .trazo { stroke: var(--ink); stroke-width: 1.8; fill: none; }
+.residencia .trazo-fino { stroke: var(--ink); stroke-width: 1.2; fill: none; }
+.cristal { fill: var(--cristal); }
+.celosia { stroke: var(--oro); stroke-width: 1.4; opacity: .55; fill: none; }
+.barrote { stroke: var(--ink); stroke-width: 1.2; }
+.teja { fill: var(--teja); }
+.teja-linea { stroke: rgba(0, 0, 0, .25); stroke-width: 1; fill: none; }
+.acera { fill: var(--cal-3); }
+.paseo .piel { fill: #E9C4A2; stroke: var(--ink); stroke-width: 1; }
+.paseo .abrigo { fill: var(--oro-ink); }
+.paseo .uniforme { fill: var(--anil); }
+.paseo .pierna, .paseo .brazo { stroke: var(--ink); stroke-width: 3; stroke-linecap: round; fill: none; }
+.paseo .baston { stroke: var(--ink); stroke-width: 2; stroke-linecap: round; fill: none; }
+.paseo { animation: pasear 9s ease-in-out infinite alternate; }
+@keyframes pasear { from { transform: translateX(0); } to { transform: translateX(-28px); } }
+.nube-2 { animation-duration: 90s; animation-delay: -40s; }
 .sol { fill: var(--oro); opacity: .35; }
 .molino-cuerpo { fill: var(--cal); }
 .molino-trazo { stroke: var(--ink); stroke-width: 2.2; fill: none; }
@@ -247,9 +286,10 @@ p { margin: 0 0 1em; }
 @keyframes nube { from { transform: translateX(-120px); } to { transform: translateX(520px); } }
 
 @media (max-width: 860px) {
-	.hero-in { grid-template-columns: 1fr; padding-top: 2.5rem; }
-	.hero-texto { padding-bottom: 0; }
-	.escena { min-height: 280px; }
+	.hero-in { padding-top: 2.5rem; }
+	.hero-texto { display: block; }
+	.hero-lado .hero-lead { margin-top: 1.4rem; }
+	.escena { height: 260px; margin-top: 0; }
 }
 
 /* Molino de línea (cabeceras, cita, pie) */

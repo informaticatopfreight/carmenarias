@@ -27,6 +27,7 @@ $frases      = ca_opt_lineas( 'marquesina' );
 				<span class="ln"><span><?php echo esc_html( ca_opt( 'hero_linea_1' ) ); ?></span></span>
 				<span class="ln"><span><em><?php echo esc_html( ca_opt( 'hero_linea_2' ) ); ?></em></span></span>
 			</h1>
+			<div class="hero-lado">
 			<p class="hero-lead"><?php echo esc_html( ca_opt( 'hero_texto' ) ); ?></p>
 			<div class="hero-acciones">
 				<a class="btn" href="#centros">Conoce nuestros centros <?php echo ca_icono( 'flecha' ); // phpcs:ignore ?></a>
@@ -34,9 +35,10 @@ $frases      = ca_opt_lineas( 'marquesina' );
 					<a class="btn btn-borde" href="<?php echo esc_url( get_permalink( $contacto ) ); ?>">Pide información</a>
 				<?php endif; ?>
 			</div>
+			</div>
 		</div>
-		<div class="escena" data-parallax><?php ca_molino( 'escena' ); ?></div>
 	</div>
+	<div class="escena"><?php get_template_part( 'template-parts/escena', 'residencia' ); ?></div>
 </section>
 
 <?php if ( $frases ) : ?>
